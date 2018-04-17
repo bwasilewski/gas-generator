@@ -91,11 +91,14 @@ inquirer.prompt(questions).then(answers => {
                 if (error) throw error;
             })
             break;
-
-        console.log('Project scaffolded at ' + directory)
     }
 
-
-    console.log('Styles: ', answers.styles)
-    console.log('Features: ', answers.features)
+    console.log('-----------------------------------')
+    console.log('Project scaffolded at ' + directory)
+    console.log('To get started, enter the following:')
+    console.log('-----------------------------------')
+    console.log('$ cd ' + directory)
+    console.log('$ yarn install')
+    console.log('$ gulp')
+    console.log('-----------------------------------')
 })
