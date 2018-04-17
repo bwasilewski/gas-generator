@@ -4,6 +4,7 @@ const inquirer = require('inquirer')
 const fs = require('fs')
 const cmd = require('node-cmd')
 const ncp = require('ncp').ncp
+const clone = require('git-clone')
 
 ncp.limit = 16;
 
@@ -19,7 +20,7 @@ let questions = [
         message: 'Styles Library:',
         choices: [
             'Bootstrap',
-            'Foundation',
+            'InuitCSS',
             'Bulma',
             new inquirer.Separator(),
             'None'
@@ -53,21 +54,47 @@ inquirer.prompt(questions).then(answers => {
     }
 
     // write manifest file which contains all dynamic project data
-    fs.writeFile(directory + '/manifest.json', JSON.stringify(manifest), function (error) {
-        if (error) throw error
-    })
+    // fs.writeFile(directory + '/manifest.json', JSON.stringify(manifest), function (error) {
+    //     if (error) throw error
+    // })
 
-    ncp('./src', directory, error => {
-        if (error) throw error
+    // ncp('./src', directory, error => {
+    //     if (error) throw error
 
-        console.log('Your project was generated successfully at: ' + directory + '/')
-    })
+    //     console.log('Your project was generated successfully at: ' + directory + '/')
+    // })
 
     // fs.copyFile('./src/README.md', directory + '/README.md', error => {
     //     if (error) throw error
 
     //     console.log('README file generated at ' + directory + '/README.md')
     // })
+
+    switch (answers.styles) {
+        case 'Bootstrap':
+            clone('https://github.com/bwasilewski/build-starter', directory, error => {
+                if (error) throw error;
+            })
+            break;
+        case 'InuitCSS':
+            clone('https://github.com/bwasilewski/gas-basic-inuitcss.git', directory, error => {
+                if (error) throw error;
+            })
+            break;
+        case 'Bulma':
+            clone('https://github.com/bwasilewski/gas-basic-bulma.git', directory, error => {
+                if (error) throw error;
+            })
+            break;
+        case 'None':
+            clone('https://github.com/bwasilewski/build-starter', directory, error => {
+                if (error) throw error;
+            })
+            break;
+
+        console.log('Project scaffolded at ' + directory)
+    }
+
 
     console.log('Styles: ', answers.styles)
     console.log('Features: ', answers.features)

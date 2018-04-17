@@ -10,6 +10,7 @@
   "dependencies": {
     "commander": "^2.15.1",
     "fs": "^0.0.1-security",
+    "git-clone": "^0.1.0",
     "inquirer": "^5.2.0",
     "ncp": "^2.0.0",
     "node-cmd": "^3.0.0"
