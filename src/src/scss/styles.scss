@@ -1,0 +1,20 @@
+$font-family-base: 'Crete Round', serif;
+
+@import "./node_modules/bootstrap/scss/bootstrap";
+@import "components/grid";
+
+.header,
+.footer {
+  nav {
+    .nav-link {
+      color: #fff;
+      opacity: .7;
+
+      &:hover, &.active {
+        color: #fff;
+        text-decoration: underline;
+        opacity: 1;
+      }
+    }
+  }
+}
