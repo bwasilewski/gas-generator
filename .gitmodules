@@ -1,0 +1,3 @@
+[submodule "app/gas-basic"]
+	path = app/gas-basic
+	url = https://github.com/bwasilewski/build-starter.git
