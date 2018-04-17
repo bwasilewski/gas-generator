@@ -58,39 +58,39 @@ inquirer.prompt(questions).then(answers => {
     //     if (error) throw error
     // })
 
-    // ncp('./src', directory, error => {
+    // ncp('./app', directory, error => {
     //     if (error) throw error
 
     //     console.log('Your project was generated successfully at: ' + directory + '/')
     // })
 
-    // fs.copyFile('./src/README.md', directory + '/README.md', error => {
+    // fs.copyFile('./app/README.md', directory + '/README.md', error => {
     //     if (error) throw error
 
     //     console.log('README file generated at ' + directory + '/README.md')
     // })
 
-    switch (answers.styles) {
-        case 'Bootstrap':
-            clone('https://github.com/bwasilewski/build-starter', directory, error => {
-                if (error) throw error;
-            })
-            break;
-        case 'InuitCSS':
-            clone('https://github.com/bwasilewski/gas-basic-inuitcss.git', directory, error => {
-                if (error) throw error;
-            })
-            break;
-        case 'Bulma':
-            clone('https://github.com/bwasilewski/gas-basic-bulma.git', directory, error => {
-                if (error) throw error;
-            })
-            break;
-        case 'None':
-            clone('https://github.com/bwasilewski/build-starter', directory, error => {
-                if (error) throw error;
-            })
-            break;
+    // switch (answers.styles) {
+    //     case 'Bootstrap':
+    //         clone('https://github.com/bwasilewski/build-starter', directory, error => {
+    //             if (error) throw error;
+    //         })
+    //         break;
+    //     case 'InuitCSS':
+    //         clone('https://github.com/bwasilewski/gas-basic-inuitcss.git', directory, error => {
+    //             if (error) throw error;
+    //         })
+    //         break;
+    //     case 'Bulma':
+    //         clone('https://github.com/bwasilewski/gas-basic-bulma.git', directory, error => {
+    //             if (error) throw error;
+    //         })
+    //         break;
+    //     case 'None':
+    //         clone('https://github.com/bwasilewski/build-starter', directory, error => {
+    //             if (error) throw error;
+    //         })
+    //         break;
     }
 
     console.log('-----------------------------------')
