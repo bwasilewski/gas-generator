@@ -16,25 +16,12 @@ let questions = [
     },
     {
         type: 'list',
-        name: 'styles',
-        message: 'Styles Library:',
+        name: 'template',
+        message: 'Project template:',
         choices: [
-            'Bootstrap',
-            'InuitCSS',
-            'Bulma',
-            new inquirer.Separator(),
-            'None'
-        ]
-    },
-    {
-        type: 'checkbox',
-        name: 'features',
-        message: 'Required Functionality:',
-        choices: [
-            {name: 'HTML Templates'},
-            {name: 'Backend'},
-            {name: 'Sass Processing'},
-            {name: 'ES6/7'}
+            'gas-basic',
+            'gas-basic-inuit',
+            'gas-basic-bulma'
         ]
     },
 ]
@@ -42,11 +29,11 @@ let questions = [
 
 inquirer.prompt(questions).then(answers => {
     let manifest = {
-        name: answers.project_name,
-        styles: answers.styles,
-        features: answers.features
+        project_name: answers.project_name,
+        template: answers.template
     }
-    let directory = './' + manifest.name
+    let manifeststr = JSON.stringify(manifest, null, 2) + '\n'
+    let directory = './' + manifest.project_name
 
     // create output directory
     if (!fs.existsSync(directory)) {
@@ -54,9 +41,9 @@ inquirer.prompt(questions).then(answers => {
     }
 
     // write manifest file which contains all dynamic project data
-    // fs.writeFile(directory + '/manifest.json', JSON.stringify(manifest), function (error) {
-    //     if (error) throw error
-    // })
+    fs.writeFile(directory + '/manifest.json', manifeststr, function (error) {
+        if (error) throw error
+    })
 
     // ncp('./app', directory, error => {
     //     if (error) throw error
@@ -91,7 +78,7 @@ inquirer.prompt(questions).then(answers => {
     //             if (error) throw error;
     //         })
     //         break;
-    }
+    // }
 
     console.log('-----------------------------------')
     console.log('Project scaffolded at ' + directory)
