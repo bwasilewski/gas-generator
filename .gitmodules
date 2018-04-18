@@ -4,3 +4,6 @@
 [submodule "app/gas-basic-inuitcss"]
 	path = app/gas-basic-inuitcss
 	url = https://github.com/bwasilewski/gas-basic-inuitcss.git
+[submodule "app/gas-basic-bulma"]
+	path = app/gas-basic-bulma
+	url = https://github.com/bwasilewski/gas-basic-bulma.git
