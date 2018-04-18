@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 const inquirer = require('inquirer')
-const fs = require('fs')
+const fs = require('fs-extra')
 const cmd = require('node-cmd')
 const ncp = require('ncp').ncp
-const clone = require('git-clone')
+const gip = require('get-installed-path')
+let packagepath = ''
 
 ncp.limit = 16;
 
@@ -12,12 +13,12 @@ let questions = [
     {
         type: 'input',
         name: 'project_name',
-        message: 'Project name:'
+        message: 'Project Name:'
     },
     {
         type: 'list',
         name: 'template',
-        message: 'Project template:',
+        message: 'Project Template:',
         choices: [
             'gas-basic',
             'gas-basic-inuit',
@@ -27,58 +28,48 @@ let questions = [
 ]
 
 
-inquirer.prompt(questions).then(answers => {
+initialize();
+
+
+function initialize() {
+    gip.getInstalledPath('gas-generator').then(path => {
+        packagepath = path;
+
+        promptUser()
+    }).catch(err => {
+        console.log('error: ', err)
+    })
+}
+
+
+function promptUser() {
+    inquirer.prompt(questions).then(function (answers) {
+        writeFiles(answers)
+    });
+}
+
+
+function writeFiles(answers) {
     let manifest = {
         project_name: answers.project_name,
         template: answers.template
     }
     let manifeststr = JSON.stringify(manifest, null, 2) + '\n'
     let directory = './' + manifest.project_name
+    let templatepath = '/app/' + answers.template
 
-    // create output directory
-    if (!fs.existsSync(directory)) {
-        fs.mkdirSync(directory)
-    }
+    // // write manifest file which contains all dynamic project data
+    // fs.writeFile(directory + '/manifest.json', manifeststr, err => {
+    //     if (err) return console.error(err)
+    // })
+    
+    fs.copy(packagepath + templatepath, process.cwd(), err => {
+        if (err) return console.error(err)
 
-    // write manifest file which contains all dynamic project data
-    fs.writeFile(directory + '/manifest.json', manifeststr, function (error) {
-        if (error) throw error
+        fs.remove(process.cwd() + '/.git', errr => {
+            if (errr) return console.log(errr)
+        })
     })
-
-    // ncp('./app', directory, error => {
-    //     if (error) throw error
-
-    //     console.log('Your project was generated successfully at: ' + directory + '/')
-    // })
-
-    // fs.copyFile('./app/README.md', directory + '/README.md', error => {
-    //     if (error) throw error
-
-    //     console.log('README file generated at ' + directory + '/README.md')
-    // })
-
-    // switch (answers.styles) {
-    //     case 'Bootstrap':
-    //         clone('https://github.com/bwasilewski/build-starter', directory, error => {
-    //             if (error) throw error;
-    //         })
-    //         break;
-    //     case 'InuitCSS':
-    //         clone('https://github.com/bwasilewski/gas-basic-inuitcss.git', directory, error => {
-    //             if (error) throw error;
-    //         })
-    //         break;
-    //     case 'Bulma':
-    //         clone('https://github.com/bwasilewski/gas-basic-bulma.git', directory, error => {
-    //             if (error) throw error;
-    //         })
-    //         break;
-    //     case 'None':
-    //         clone('https://github.com/bwasilewski/build-starter', directory, error => {
-    //             if (error) throw error;
-    //         })
-    //         break;
-    // }
 
     console.log('-----------------------------------')
     console.log('Project scaffolded at ' + directory)
@@ -88,4 +79,5 @@ inquirer.prompt(questions).then(answers => {
     console.log('$ yarn install')
     console.log('$ gulp')
     console.log('-----------------------------------')
-})
+}
+
