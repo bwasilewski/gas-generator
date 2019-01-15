@@ -21,7 +21,7 @@ let questions = [
         message: 'Project Template:',
         choices: [
             'gas-basic',
-            'gas-basic-inuit',
+            'gas-basic-inuitcss',
             'gas-basic-bulma'
         ]
     },
@@ -55,21 +55,31 @@ function writeFiles(answers) {
         template: answers.template
     }
     let manifeststr = JSON.stringify(manifest, null, 2) + '\n'
-    let directory = './' + manifest.project_name
+    let directory = process.cwd() + '/' + manifest.project_name
     let templatepath = '/app/' + answers.template
-
-    // // write manifest file which contains all dynamic project data
-    // fs.writeFile(directory + '/manifest.json', manifeststr, err => {
-    //     if (err) return console.error(err)
-    // })
     
-    fs.copy(packagepath + templatepath, process.cwd(), err => {
+    fs.ensureDir(directory, err => {
         if (err) return console.error(err)
 
-        fs.remove(process.cwd() + '/.git', errr => {
-            if (errr) return console.log(errr)
+        // write manifest file which contains all dynamic project data
+        fs.writeFile(directory + '/manifest.json', manifeststr, err => {
+            if (err) return console.error(err)
+        })
+
+        fs.copy(packagepath + templatepath, directory, err => {
+            if (err) return console.error(err)
         })
     })
+
+    
+    // fs.copy(packagepath + templatepath, process.cwd(), err => {
+    //     if (err) return console.error(err)
+
+    //     // this is wrong, don't do it 
+    //     // fs.remove(process.cwd() + '/.git', errr => {
+    //     //     if (errr) return console.log(errr)
+    //     // })
+    // })
 
     console.log('-----------------------------------')
     console.log('Project scaffolded at ' + directory)
