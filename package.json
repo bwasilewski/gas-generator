@@ -1,6 +1,6 @@
 {
   "name": "gas-generator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Basic site generator with modern conveniences",
   "main": "main.js",
   "repository": "https://github.com/bwasilewski/gas-generator",
