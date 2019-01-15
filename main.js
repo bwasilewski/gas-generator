@@ -2,7 +2,6 @@
 
 const inquirer = require('inquirer')
 const fs = require('fs-extra')
-const cmd = require('node-cmd')
 const ncp = require('ncp').ncp
 const gip = require('get-installed-path')
 let packagepath = ''
